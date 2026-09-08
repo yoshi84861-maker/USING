@@ -5,130 +5,566 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>物品使用紀錄</title>
+<title>小物使用紀錄</title>
 
 <style>
-    * {
-        box-sizing: border-box;
-    }
 
-    body {
-        margin: 0;
-        font-family: Arial, "Microsoft JhengHei", sans-serif;
-        background: #f5f5f5;
-        color: #333;
-    }
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #f5f4ed;
+    --card: #fffef9;
+    --green: #6f8f78;
+    --green-dark: #526d5b;
+    --green-light: #e8eee7;
+    --text: #3f4841;
+    --subtext: #899189;
+    --line: #e4e7df;
+    --gold: #b5a06b;
+}
+
+
+/* =========================
+   整體
+========================= */
+
+body {
+
+    margin: 0;
+
+    min-height: 100vh;
+
+    font-family:
+        "Noto Sans TC",
+        "Microsoft JhengHei",
+        Arial,
+        sans-serif;
+
+    background:
+        radial-gradient(
+            circle at 15% 10%,
+            rgba(184, 201, 180, 0.25),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 90% 20%,
+            rgba(213, 205, 167, 0.18),
+            transparent 25%
+        ),
+        var(--bg);
+
+    color: var(--text);
+
+}
+
+
+/* =========================
+   主容器
+========================= */
+
+.container {
+
+    width: 100%;
+
+    max-width: 680px;
+
+    margin: auto;
+
+    padding:
+        45px 18px 60px;
+
+}
+
+
+/* =========================
+   標題
+========================= */
+
+.header {
+
+    text-align: center;
+
+    margin-bottom: 35px;
+
+}
+
+
+.header .symbol {
+
+    font-size: 25px;
+
+    color: var(--green);
+
+    margin-bottom: 8px;
+
+    letter-spacing: 5px;
+
+}
+
+
+h1 {
+
+    margin: 0;
+
+    font-size: 28px;
+
+    font-weight: 500;
+
+    letter-spacing: 2px;
+
+}
+
+
+.subtitle {
+
+    margin-top: 9px;
+
+    font-size: 13px;
+
+    color: var(--subtext);
+
+    letter-spacing: 1px;
+
+}
+
+
+/* =========================
+   新增區
+========================= */
+
+.add-box {
+
+    background: rgba(255,255,255,0.72);
+
+    border: 1px solid var(--line);
+
+    border-radius: 18px;
+
+    padding: 18px;
+
+    margin-bottom: 35px;
+
+    box-shadow:
+        0 8px 25px rgba(72, 89, 75, 0.06);
+
+    backdrop-filter: blur(5px);
+
+}
+
+
+.add-row {
+
+    display: flex;
+
+    gap: 10px;
+
+}
+
+
+input {
+
+    flex: 1;
+
+    min-width: 0;
+
+    border: 1px solid var(--line);
+
+    background: #fafbf7;
+
+    border-radius: 11px;
+
+    padding: 13px 15px;
+
+    font-size: 15px;
+
+    color: var(--text);
+
+    outline: none;
+
+    transition: 0.2s;
+
+}
+
+
+input:focus {
+
+    border-color: #a8baa9;
+
+    background: white;
+
+}
+
+
+input::placeholder {
+
+    color: #b1b8b1;
+
+}
+
+
+.add-btn {
+
+    border: none;
+
+    border-radius: 11px;
+
+    padding: 0 20px;
+
+    background: var(--green);
+
+    color: white;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+
+}
+
+
+.add-btn:hover {
+
+    background: var(--green-dark);
+
+    transform: translateY(-1px);
+
+}
+
+
+/* =========================
+   區塊標題
+========================= */
+
+.section {
+
+    margin-bottom: 38px;
+
+}
+
+
+.section-title {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    font-size: 17px;
+
+    font-weight: 500;
+
+    margin-bottom: 14px;
+
+    color: var(--green-dark);
+
+}
+
+
+.section-title::after {
+
+    content: "";
+
+    height: 1px;
+
+    flex: 1;
+
+    background: var(--line);
+
+}
+
+
+/* =========================
+   物品卡片
+========================= */
+
+.item {
+
+    position: relative;
+
+    background: var(--card);
+
+    border: 1px solid var(--line);
+
+    border-radius: 16px;
+
+    padding: 20px;
+
+    margin-bottom: 12px;
+
+    box-shadow:
+        0 5px 18px rgba(72, 89, 75, 0.055);
+
+    transition: 0.2s;
+
+}
+
+
+.item:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 22px rgba(72, 89, 75, 0.09);
+
+}
+
+
+/* 小小的精靈光點 */
+
+.item::before {
+
+    content: "✦";
+
+    position: absolute;
+
+    top: 13px;
+
+    right: 17px;
+
+    color: #c8bc83;
+
+    font-size: 11px;
+
+    opacity: 0.75;
+
+}
+
+
+.item-name {
+
+    font-size: 19px;
+
+    font-weight: 500;
+
+    margin-bottom: 13px;
+
+    padding-right: 20px;
+
+}
+
+
+.info {
+
+    font-size: 13px;
+
+    color: var(--subtext);
+
+    margin: 5px 0;
+
+}
+
+
+.days {
+
+    display: inline-block;
+
+    margin-top: 12px;
+
+    padding: 6px 11px;
+
+    border-radius: 8px;
+
+    background: var(--green-light);
+
+    color: var(--green-dark);
+
+    font-size: 14px;
+
+    font-weight: 500;
+
+}
+
+
+/* =========================
+   按鈕
+========================= */
+
+.buttons {
+
+    display: flex;
+
+    gap: 8px;
+
+    margin-top: 17px;
+
+}
+
+
+button {
+
+    font-family: inherit;
+
+}
+
+
+.finish-btn {
+
+    border: none;
+
+    border-radius: 9px;
+
+    padding: 9px 15px;
+
+    background: var(--green);
+
+    color: white;
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+
+}
+
+
+.finish-btn:hover {
+
+    background: var(--green-dark);
+
+}
+
+
+.delete-btn {
+
+    border: 1px solid #e2e4dc;
+
+    border-radius: 9px;
+
+    padding: 9px 13px;
+
+    background: transparent;
+
+    color: #a0a69f;
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+}
+
+
+.delete-btn:hover {
+
+    background: #f4f5f0;
+
+    color: #777e77;
+
+}
+
+
+/* =========================
+   空白狀態
+========================= */
+
+.empty {
+
+    text-align: center;
+
+    padding: 28px 15px;
+
+    color: #a5aca5;
+
+    font-size: 13px;
+
+    border: 1px dashed #dfe3dc;
+
+    border-radius: 14px;
+
+    background: rgba(255,255,255,0.35);
+
+}
+
+
+/* =========================
+   歷史紀錄
+========================= */
+
+.history-item {
+
+    opacity: 0.9;
+
+}
+
+
+.history-item .days {
+
+    background: #f0eee5;
+
+    color: #827957;
+
+}
+
+
+/* =========================
+   手機
+========================= */
+
+@media (max-width: 500px) {
 
     .container {
-        max-width: 700px;
-        margin: auto;
-        padding: 25px 15px;
+
+        padding:
+            32px 14px 50px;
+
     }
+
 
     h1 {
-        text-align: center;
-        margin-bottom: 25px;
+
+        font-size: 25px;
+
     }
 
-    .add-box {
-        background: white;
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        margin-bottom: 25px;
-    }
 
     .add-row {
-        display: flex;
-        gap: 10px;
+
+        flex-direction: column;
+
     }
 
-    input {
-        flex: 1;
-        padding: 12px;
-        font-size: 16px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-    }
-
-    button {
-        border: none;
-        padding: 10px 16px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 15px;
-    }
 
     .add-btn {
-        background: #4CAF50;
-        color: white;
+
+        width: 100%;
+
+        padding: 12px;
+
     }
 
-    .finish-btn {
-        background: #2196F3;
-        color: white;
-    }
-
-    .delete-btn {
-        background: #f44336;
-        color: white;
-    }
 
     .item {
-        background: white;
+
         padding: 18px;
-        border-radius: 12px;
-        margin-bottom: 12px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-
-    .item-name {
-        font-size: 20px;
-        font-weight: bold;
-        margin-bottom: 10px;
-    }
-
-    .info {
-        margin: 5px 0;
-        color: #666;
-    }
-
-    .days {
-        font-size: 18px;
-        color: #2196F3;
-        font-weight: bold;
-        margin: 10px 0;
-    }
-
-    .buttons {
-        display: flex;
-        gap: 10px;
-        margin-top: 12px;
-    }
-
-    .section-title {
-        font-size: 22px;
-        font-weight: bold;
-        margin: 25px 0 15px;
-    }
-
-    .empty {
-        text-align: center;
-        color: #999;
-        padding: 20px;
-    }
-
-    @media (max-width: 500px) {
-
-        .add-row {
-            flex-direction: column;
-        }
-
-        .add-btn {
-            width: 100%;
-        }
 
     }
+
+}
+
+
+/* =========================
+   微小裝飾
+========================= */
+
+.fairy-line {
+
+    text-align: center;
+
+    color: #b9b99a;
+
+    font-size: 11px;
+
+    letter-spacing: 8px;
+
+    margin-top: 5px;
+
+    margin-bottom: 22px;
+
+}
 
 </style>
 
@@ -139,9 +575,31 @@
 <div class="container">
 
 ```
-<h1>📦 物品使用紀錄</h1>
+<!-- 標題 -->
 
-<!-- 新增物品 -->
+<div class="header">
+
+    <div class="symbol">
+        ✦
+    </div>
+
+    <h1>
+        小物使用紀錄
+    </h1>
+
+    <div class="subtitle">
+        記住每一件陪伴你的日常
+    </div>
+
+</div>
+
+
+<div class="fairy-line">
+    · ✦ ·
+</div>
+
+
+<!-- 新增 -->
 
 <div class="add-box">
 
@@ -150,7 +608,7 @@
         <input
             type="text"
             id="itemName"
-            placeholder="例如：乳液"
+            placeholder="輸入物品名稱，例如：乳液"
         >
 
         <button
@@ -167,33 +625,52 @@
 
 <!-- 使用中 -->
 
-<div class="section-title">
-    🟢 使用中
+<div class="section">
+
+    <div class="section-title">
+        <span>🌿</span>
+        <span>使用中</span>
+    </div>
+
+    <div id="activeList"></div>
+
 </div>
 
-<div id="activeList"></div>
 
+<!-- 歷史 -->
 
-<!-- 歷史紀錄 -->
+<div class="section">
 
-<div class="section-title">
-    📜 使用紀錄
+    <div class="section-title">
+        <span>✦</span>
+        <span>使用紀錄</span>
+    </div>
+
+    <div id="historyList"></div>
+
 </div>
-
-<div id="historyList"></div>
 ```
 
 </div>
 
 <script>
 
+
+/* =========================
+   讀取資料
+========================= */
+
 let activeItems =
-    JSON.parse(localStorage.getItem("activeItems"))
-    || [];
+    JSON.parse(
+        localStorage.getItem("activeItems")
+    ) || [];
+
 
 let historyItems =
-    JSON.parse(localStorage.getItem("historyItems"))
-    || [];
+    JSON.parse(
+        localStorage.getItem("historyItems")
+    ) || [];
+
 
 
 /* =========================
@@ -202,35 +679,42 @@ let historyItems =
 
 function formatDate(date) {
 
-    let year = date.getFullYear();
+    let year =
+        date.getFullYear();
 
     let month =
-        String(date.getMonth() + 1)
-        .padStart(2, "0");
+        String(
+            date.getMonth() + 1
+        ).padStart(2, "0");
 
     let day =
-        String(date.getDate())
-        .padStart(2, "0");
+        String(
+            date.getDate()
+        ).padStart(2, "0");
 
     return `${year}/${month}/${day}`;
 
 }
 
 
+
 /* =========================
-   新增物品
+   新增
 ========================= */
 
 function addItem() {
 
     let input =
-        document.getElementById("itemName");
+        document.getElementById(
+            "itemName"
+        );
+
 
     let name =
         input.value.trim();
 
 
-    if (name === "") {
+    if (!name) {
 
         alert("請輸入物品名稱");
 
@@ -269,11 +753,15 @@ function addItem() {
 }
 
 
+
 /* =========================
-   計算使用天數
+   使用天數
 ========================= */
 
-function getDays(startDate, endDate = new Date()) {
+function getDays(
+    startDate,
+    endDate = new Date()
+) {
 
     let start =
         new Date(startDate);
@@ -301,6 +789,7 @@ function getDays(startDate, endDate = new Date()) {
     return days + 1;
 
 }
+
 
 
 /* =========================
@@ -357,13 +846,21 @@ function finishItem(id) {
 }
 
 
+
 /* =========================
    刪除
 ========================= */
 
-function deleteItem(id, type) {
+function deleteItem(
+    id,
+    type
+) {
 
-    if (!confirm("確定要刪除嗎？")) {
+    if (
+        !confirm(
+            "確定要刪除這筆紀錄嗎？"
+        )
+    ) {
 
         return;
 
@@ -374,7 +871,8 @@ function deleteItem(id, type) {
 
         activeItems =
             activeItems.filter(
-                item => item.id !== id
+                item =>
+                    item.id !== id
             );
 
     }
@@ -384,7 +882,8 @@ function deleteItem(id, type) {
 
         historyItems =
             historyItems.filter(
-                item => item.id !== id
+                item =>
+                    item.id !== id
             );
 
     }
@@ -398,38 +897,34 @@ function deleteItem(id, type) {
 }
 
 
+
 /* =========================
-   儲存資料
+   儲存
 ========================= */
 
 function saveData() {
 
     localStorage.setItem(
-
         "activeItems",
-
         JSON.stringify(
             activeItems
         )
-
     );
 
 
     localStorage.setItem(
-
         "historyItems",
-
         JSON.stringify(
             historyItems
         )
-
     );
 
 }
 
 
+
 /* =========================
-   顯示使用中
+   使用中
 ========================= */
 
 function renderActive() {
@@ -447,10 +942,15 @@ function renderActive() {
         activeItems.length === 0
     ) {
 
-        container.innerHTML =
-            `<div class="empty">
-                目前沒有使用中的物品
-            </div>`;
+        container.innerHTML = `
+
+            <div class="empty">
+
+                目前沒有正在使用的物品
+
+            </div>
+
+        `;
 
         return;
 
@@ -471,16 +971,20 @@ function renderActive() {
 
                 <div class="item-name">
 
-                    ${item.name}
+                    ${escapeHTML(
+                        item.name
+                    )}
 
                 </div>
 
 
                 <div class="info">
 
-                    開始使用：
+                    開始使用　
                     ${formatDate(
-                        new Date(item.startDate)
+                        new Date(
+                            item.startDate
+                        )
                     )}
 
                 </div>
@@ -497,7 +1001,11 @@ function renderActive() {
 
                     <button
                         class="finish-btn"
-                        onclick="finishItem(${item.id})"
+                        onclick="
+                            finishItem(
+                                ${item.id}
+                            )
+                        "
                     >
 
                         ✓ 用完
@@ -507,13 +1015,15 @@ function renderActive() {
 
                     <button
                         class="delete-btn"
-                        onclick="deleteItem(
-                            ${item.id},
-                            'active'
-                        )"
+                        onclick="
+                            deleteItem(
+                                ${item.id},
+                                'active'
+                            )
+                        "
                     >
 
-                        🗑 刪除
+                        刪除
 
                     </button>
 
@@ -528,8 +1038,9 @@ function renderActive() {
 }
 
 
+
 /* =========================
-   顯示歷史紀錄
+   歷史
 ========================= */
 
 function renderHistory() {
@@ -547,10 +1058,15 @@ function renderHistory() {
         historyItems.length === 0
     ) {
 
-        container.innerHTML =
-            `<div class="empty">
-                還沒有歷史紀錄
-            </div>`;
+        container.innerHTML = `
+
+            <div class="empty">
+
+                還沒有完成的使用紀錄
+
+            </div>
+
+        `;
 
         return;
 
@@ -561,20 +1077,12 @@ function renderHistory() {
 
         container.innerHTML += `
 
-            <div class="item">
+            <div class="item history-item">
 
                 <div class="item-name">
 
-                    ${item.name}
-
-                </div>
-
-
-                <div class="info">
-
-                    開始：
-                    ${formatDate(
-                        new Date(item.startDate)
+                    ${escapeHTML(
+                        item.name
                     )}
 
                 </div>
@@ -582,9 +1090,18 @@ function renderHistory() {
 
                 <div class="info">
 
-                    用完：
                     ${formatDate(
-                        new Date(item.endDate)
+                        new Date(
+                            item.startDate
+                        )
+                    )}
+
+                    →
+
+                    ${formatDate(
+                        new Date(
+                            item.endDate
+                        )
                     )}
 
                 </div>
@@ -592,9 +1109,7 @@ function renderHistory() {
 
                 <div class="days">
 
-                    總共使用
-                    ${item.days}
-                    天
+                    使用了 ${item.days} 天
 
                 </div>
 
@@ -603,13 +1118,15 @@ function renderHistory() {
 
                     <button
                         class="delete-btn"
-                        onclick="deleteItem(
-                            ${item.id},
-                            'history'
-                        )"
+                        onclick="
+                            deleteItem(
+                                ${item.id},
+                                'history'
+                            )
+                        "
                     >
 
-                        🗑 刪除
+                        刪除
 
                     </button>
 
@@ -624,8 +1141,41 @@ function renderHistory() {
 }
 
 
+
 /* =========================
-   更新畫面
+   防止特殊字元造成 HTML 問題
+========================= */
+
+function escapeHTML(text) {
+
+    return text
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+
+/* =========================
+   更新
 ========================= */
 
 function render() {
@@ -637,8 +1187,32 @@ function render() {
 }
 
 
+
 /* =========================
-   初始載入
+   Enter 新增
+========================= */
+
+document
+    .getElementById("itemName")
+    .addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.key === "Enter"
+            ) {
+
+                addItem();
+
+            }
+
+        }
+    );
+
+
+
+/* =========================
+   啟動
 ========================= */
 
 render();
@@ -646,5 +1220,5 @@ render();
 </script>
 
 </body>
-</html>
 
+</html>
