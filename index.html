@@ -1,1 +1,650 @@
+<!DOCTYPE html>
+
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>物品使用紀錄</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, "Microsoft JhengHei", sans-serif;
+        background: #f5f5f5;
+        color: #333;
+    }
+
+    .container {
+        max-width: 700px;
+        margin: auto;
+        padding: 25px 15px;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 25px;
+    }
+
+    .add-box {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        margin-bottom: 25px;
+    }
+
+    .add-row {
+        display: flex;
+        gap: 10px;
+    }
+
+    input {
+        flex: 1;
+        padding: 12px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+    }
+
+    button {
+        border: none;
+        padding: 10px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 15px;
+    }
+
+    .add-btn {
+        background: #4CAF50;
+        color: white;
+    }
+
+    .finish-btn {
+        background: #2196F3;
+        color: white;
+    }
+
+    .delete-btn {
+        background: #f44336;
+        color: white;
+    }
+
+    .item {
+        background: white;
+        padding: 18px;
+        border-radius: 12px;
+        margin-bottom: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .item-name {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .info {
+        margin: 5px 0;
+        color: #666;
+    }
+
+    .days {
+        font-size: 18px;
+        color: #2196F3;
+        font-weight: bold;
+        margin: 10px 0;
+    }
+
+    .buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 12px;
+    }
+
+    .section-title {
+        font-size: 22px;
+        font-weight: bold;
+        margin: 25px 0 15px;
+    }
+
+    .empty {
+        text-align: center;
+        color: #999;
+        padding: 20px;
+    }
+
+    @media (max-width: 500px) {
+
+        .add-row {
+            flex-direction: column;
+        }
+
+        .add-btn {
+            width: 100%;
+        }
+
+    }
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+```
+<h1>📦 物品使用紀錄</h1>
+
+<!-- 新增物品 -->
+
+<div class="add-box">
+
+    <div class="add-row">
+
+        <input
+            type="text"
+            id="itemName"
+            placeholder="例如：乳液"
+        >
+
+        <button
+            class="add-btn"
+            onclick="addItem()"
+        >
+            ＋ 新增
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- 使用中 -->
+
+<div class="section-title">
+    🟢 使用中
+</div>
+
+<div id="activeList"></div>
+
+
+<!-- 歷史紀錄 -->
+
+<div class="section-title">
+    📜 使用紀錄
+</div>
+
+<div id="historyList"></div>
+```
+
+</div>
+
+<script>
+
+let activeItems =
+    JSON.parse(localStorage.getItem("activeItems"))
+    || [];
+
+let historyItems =
+    JSON.parse(localStorage.getItem("historyItems"))
+    || [];
+
+
+/* =========================
+   日期格式
+========================= */
+
+function formatDate(date) {
+
+    let year = date.getFullYear();
+
+    let month =
+        String(date.getMonth() + 1)
+        .padStart(2, "0");
+
+    let day =
+        String(date.getDate())
+        .padStart(2, "0");
+
+    return `${year}/${month}/${day}`;
+
+}
+
+
+/* =========================
+   新增物品
+========================= */
+
+function addItem() {
+
+    let input =
+        document.getElementById("itemName");
+
+    let name =
+        input.value.trim();
+
+
+    if (name === "") {
+
+        alert("請輸入物品名稱");
+
+        return;
+
+    }
+
+
+    let today =
+        new Date();
+
+
+    let item = {
+
+        id: Date.now(),
+
+        name: name,
+
+        startDate:
+            today.toISOString()
+
+    };
+
+
+    activeItems.push(item);
+
+
+    saveData();
+
+
+    input.value = "";
+
+
+    render();
+
+}
+
+
+/* =========================
+   計算使用天數
+========================= */
+
+function getDays(startDate, endDate = new Date()) {
+
+    let start =
+        new Date(startDate);
+
+    let end =
+        new Date(endDate);
+
+
+    start.setHours(0,0,0,0);
+
+    end.setHours(0,0,0,0);
+
+
+    let difference =
+        end - start;
+
+
+    let days =
+        Math.floor(
+            difference /
+            (1000 * 60 * 60 * 24)
+        );
+
+
+    return days + 1;
+
+}
+
+
+/* =========================
+   用完
+========================= */
+
+function finishItem(id) {
+
+    let item =
+        activeItems.find(
+            item => item.id === id
+        );
+
+
+    if (!item) return;
+
+
+    let today =
+        new Date();
+
+
+    let finishedItem = {
+
+        ...item,
+
+        endDate:
+            today.toISOString(),
+
+        days:
+            getDays(
+                item.startDate,
+                today
+            )
+
+    };
+
+
+    historyItems.unshift(
+        finishedItem
+    );
+
+
+    activeItems =
+        activeItems.filter(
+            item => item.id !== id
+        );
+
+
+    saveData();
+
+
+    render();
+
+}
+
+
+/* =========================
+   刪除
+========================= */
+
+function deleteItem(id, type) {
+
+    if (!confirm("確定要刪除嗎？")) {
+
+        return;
+
+    }
+
+
+    if (type === "active") {
+
+        activeItems =
+            activeItems.filter(
+                item => item.id !== id
+            );
+
+    }
+
+
+    if (type === "history") {
+
+        historyItems =
+            historyItems.filter(
+                item => item.id !== id
+            );
+
+    }
+
+
+    saveData();
+
+
+    render();
+
+}
+
+
+/* =========================
+   儲存資料
+========================= */
+
+function saveData() {
+
+    localStorage.setItem(
+
+        "activeItems",
+
+        JSON.stringify(
+            activeItems
+        )
+
+    );
+
+
+    localStorage.setItem(
+
+        "historyItems",
+
+        JSON.stringify(
+            historyItems
+        )
+
+    );
+
+}
+
+
+/* =========================
+   顯示使用中
+========================= */
+
+function renderActive() {
+
+    let container =
+        document.getElementById(
+            "activeList"
+        );
+
+
+    container.innerHTML = "";
+
+
+    if (
+        activeItems.length === 0
+    ) {
+
+        container.innerHTML =
+            `<div class="empty">
+                目前沒有使用中的物品
+            </div>`;
+
+        return;
+
+    }
+
+
+    activeItems.forEach(item => {
+
+        let days =
+            getDays(
+                item.startDate
+            );
+
+
+        container.innerHTML += `
+
+            <div class="item">
+
+                <div class="item-name">
+
+                    ${item.name}
+
+                </div>
+
+
+                <div class="info">
+
+                    開始使用：
+                    ${formatDate(
+                        new Date(item.startDate)
+                    )}
+
+                </div>
+
+
+                <div class="days">
+
+                    已使用 ${days} 天
+
+                </div>
+
+
+                <div class="buttons">
+
+                    <button
+                        class="finish-btn"
+                        onclick="finishItem(${item.id})"
+                    >
+
+                        ✓ 用完
+
+                    </button>
+
+
+                    <button
+                        class="delete-btn"
+                        onclick="deleteItem(
+                            ${item.id},
+                            'active'
+                        )"
+                    >
+
+                        🗑 刪除
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+
+/* =========================
+   顯示歷史紀錄
+========================= */
+
+function renderHistory() {
+
+    let container =
+        document.getElementById(
+            "historyList"
+        );
+
+
+    container.innerHTML = "";
+
+
+    if (
+        historyItems.length === 0
+    ) {
+
+        container.innerHTML =
+            `<div class="empty">
+                還沒有歷史紀錄
+            </div>`;
+
+        return;
+
+    }
+
+
+    historyItems.forEach(item => {
+
+        container.innerHTML += `
+
+            <div class="item">
+
+                <div class="item-name">
+
+                    ${item.name}
+
+                </div>
+
+
+                <div class="info">
+
+                    開始：
+                    ${formatDate(
+                        new Date(item.startDate)
+                    )}
+
+                </div>
+
+
+                <div class="info">
+
+                    用完：
+                    ${formatDate(
+                        new Date(item.endDate)
+                    )}
+
+                </div>
+
+
+                <div class="days">
+
+                    總共使用
+                    ${item.days}
+                    天
+
+                </div>
+
+
+                <div class="buttons">
+
+                    <button
+                        class="delete-btn"
+                        onclick="deleteItem(
+                            ${item.id},
+                            'history'
+                        )"
+                    >
+
+                        🗑 刪除
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+
+/* =========================
+   更新畫面
+========================= */
+
+function render() {
+
+    renderActive();
+
+    renderHistory();
+
+}
+
+
+/* =========================
+   初始載入
+========================= */
+
+render();
+
+</script>
+
+</body>
+</html>
 
