@@ -875,5 +875,975 @@ function randomSyncCode() {
 
 /* =====================================================
    API
-===================================================== */*
+===================================================== */
+
+function apiUrl() {
+
+    return `${API_BASE}/${NAMESPACE}/${encodeURIComponent(syncCode)}`;
+
+}
+
+
+/* =====================================================
+   寫入雲端
+===================================================== */
+
+async function writeRemote() {
+
+    if (
+        !syncCode ||
+        isSaving
+    ) {
+
+        return;
+
+    }
+
+    isSaving = true;
+
+    const updatedAt =
+        Date.now();
+
+    try {
+
+        const payload = {
+
+            activeItems:
+                activeItems,
+
+            historyItems:
+                historyItems,
+
+            updatedAt:
+                updatedAt
+
+        };
+
+
+        const response =
+            await fetch(
+                apiUrl(),
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify(
+                            payload
+                        )
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "寫入失敗"
+            );
+
+        }
+
+
+        lastRemoteUpdated =
+            String(
+                updatedAt
+            );
+
+
+        setSyncStatus(
+            `已同步：${syncCode}`,
+            "ok"
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        setSyncStatus(
+            "同步失敗，請確認網路連線。",
+            "error"
+        );
+
+    }
+
+    finally {
+
+        isSaving = false;
+
+    }
+
+}
+
+
+/* =====================================================
+   從雲端讀取
+===================================================== */
+
+async function readRemote(
+    showMessage = true
+) {
+
+    if (!syncCode) {
+        return false;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                apiUrl(),
+                {
+                    cache:
+                        "no-store"
+                }
+            );
+
+
+        if (
+            response.status ===
+            404
+        ) {
+
+            if (showMessage) {
+
+                setSyncStatus(
+                    "找不到這組同步碼。",
+                    "error"
+                );
+
+            }
+
+            return false;
+
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "讀取失敗"
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !data ||
+            !Array.isArray(
+                data.activeItems
+            ) ||
+            !Array.isArray(
+                data.historyItems
+            )
+        ) {
+
+            if (showMessage) {
+
+                setSyncStatus(
+                    "同步資料格式錯誤。",
+                    "error"
+                );
+
+            }
+
+            return false;
+
+        }
+
+
+        const remoteUpdated =
+            String(
+                data.updatedAt || ""
+            );
+
+
+        /*
+         * 只有雲端資料真的不同時
+         * 才更新畫面。
+         */
+
+        if (
+            remoteUpdated !==
+            lastRemoteUpdated
+        ) {
+
+            activeItems =
+                data.activeItems;
+
+            historyItems =
+                data.historyItems;
+
+            lastRemoteUpdated =
+                remoteUpdated;
+
+            render();
+
+        }
+
+
+        if (showMessage) {
+
+            setSyncStatus(
+                `已連接：${syncCode}`,
+                "ok"
+            );
+
+        }
+
+        return true;
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        if (showMessage) {
+
+            setSyncStatus(
+                "目前無法連線同步資料。",
+                "error"
+            );
+
+        }
+
+        return false;
+
+    }
+
+}
+
+
+/* =====================================================
+   ★ 補回「薄荷洗髮」
+   
+   只針對同步碼 2UJKM32E。
+   
+   如果已經存在：
+   不新增、不重複。
+===================================================== */
+
+async function restoreMintShampoo() {
+
+    if (
+        syncCode !==
+        "2UJKM32E"
+    ) {
+
+        return;
+
+    }
+
+
+    const alreadyExists =
+        activeItems.some(
+            item =>
+                item.name ===
+                "薄荷洗髮"
+        ) ||
+        historyItems.some(
+            item =>
+                item.name ===
+                "薄荷洗髮"
+        );
+
+
+    if (alreadyExists) {
+
+        return;
+
+    }
+
+
+    /*
+     * 補回原本的紀錄
+     */
+
+    const item = {
+
+        id:
+            (
+                crypto &&
+                crypto.randomUUID
+            )
+                ? crypto.randomUUID()
+                : String(
+                    Date.now()
+                ),
+
+        name:
+            "薄荷洗髮",
+
+        startDate:
+            "2026-09-08"
+
+    };
+
+
+    activeItems.unshift(
+        item
+    );
+
+
+    render();
+
+
+    /*
+     * 寫回同步碼雲端
+     */
+
+    await writeRemote();
+
+}
+
+
+/* =====================================================
+   建立新同步碼
+===================================================== */
+
+async function createSyncCode() {
+
+    syncCode =
+        randomSyncCode();
+
+
+    activeItems = [];
+
+    historyItems = [];
+
+    lastRemoteUpdated =
+        "";
+
+
+    localStorage.setItem(
+        "usingSyncCode",
+        syncCode
+    );
+
+
+    $("syncCode").value =
+        syncCode;
+
+
+    render();
+
+
+    setSyncStatus(
+        `正在建立：${syncCode}`
+    );
+
+
+    await writeRemote();
+
+
+    setSyncStatus(
+        `新同步碼：${syncCode}`,
+        "ok"
+    );
+
+
+    startPolling();
+
+}
+
+
+/* =====================================================
+   載入同步碼
+===================================================== */
+
+async function loadSyncCode() {
+
+    const code =
+        $("syncCode")
+            .value
+            .trim()
+            .toUpperCase();
+
+
+    if (
+        !/^[A-Z0-9]{8}$/.test(
+            code
+        )
+    ) {
+
+        setSyncStatus(
+            "同步碼必須是 8 碼英數字。",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    syncCode =
+        code;
+
+
+    localStorage.setItem(
+        "usingSyncCode",
+        syncCode
+    );
+
+
+    lastRemoteUpdated =
+        "";
+
+
+    /*
+     * 先讀取雲端
+     * 絕對不要先清除資料
+     */
+
+    const loaded =
+        await readRemote(true);
+
+
+    if (!loaded) {
+
+        return;
+
+    }
+
+
+    /*
+     * 載入成功後，
+     * 檢查是否需要補回薄荷洗髮
+     */
+
+    await restoreMintShampoo();
+
+
+    startPolling();
+
+}
+
+
+/* =====================================================
+   自動同步
+===================================================== */
+
+function startPolling() {
+
+    if (pollTimer) {
+
+        clearInterval(
+            pollTimer
+        );
+
+    }
+
+
+    pollTimer =
+        setInterval(
+            () => {
+
+                if (
+                    syncCode &&
+                    !isSaving
+                ) {
+
+                    readRemote(false);
+
+                }
+
+            },
+            4000
+        );
+
+}
+
+
+/* =====================================================
+   新增
+===================================================== */
+
+async function addItem() {
+
+    if (!syncCode) {
+
+        setSyncStatus(
+            "請先建立或載入同步碼。",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const input =
+        $("itemName");
+
+
+    const name =
+        input.value.trim();
+
+
+    if (!name) {
+
+        alert(
+            "請輸入物品名稱"
+        );
+
+        return;
+
+    }
+
+
+    const item = {
+
+        id:
+            (
+                crypto &&
+                crypto.randomUUID
+            )
+                ? crypto.randomUUID()
+                : String(
+                    Date.now()
+                ),
+
+        name:
+            name,
+
+        startDate:
+            getTodayString()
+
+    };
+
+
+    activeItems.push(
+        item
+    );
+
+
+    input.value = "";
+
+
+    render();
+
+
+    await writeRemote();
+
+}
+
+
+/* =====================================================
+   用完
+===================================================== */
+
+async function finishItem(
+    id
+) {
+
+    const item =
+        activeItems.find(
+            item =>
+                item.id === id
+        );
+
+
+    if (!item) {
+        return;
+    }
+
+
+    const today =
+        getTodayString();
+
+
+    const finishedItem = {
+
+        ...item,
+
+        endDate:
+            today,
+
+        days:
+            getDays(
+                item.startDate,
+                today
+            )
+
+    };
+
+
+    historyItems.unshift(
+        finishedItem
+    );
+
+
+    activeItems =
+        activeItems.filter(
+            item =>
+                item.id !== id
+        );
+
+
+    render();
+
+
+    await writeRemote();
+
+}
+
+
+/* =====================================================
+   刪除
+===================================================== */
+
+async function deleteItem(
+    id,
+    type
+) {
+
+    if (
+        !confirm(
+            "確定要刪除這筆紀錄嗎？"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        type === "active"
+    ) {
+
+        activeItems =
+            activeItems.filter(
+                item =>
+                    item.id !== id
+            );
+
+    }
+
+
+    if (
+        type === "history"
+    ) {
+
+        historyItems =
+            historyItems.filter(
+                item =>
+                    item.id !== id
+            );
+
+    }
+
+
+    render();
+
+
+    await writeRemote();
+
+}
+
+
+/* =====================================================
+   使用中
+===================================================== */
+
+function renderActive() {
+
+    const container =
+        $("activeList");
+
+
+    container.innerHTML = "";
+
+
+    if (
+        activeItems.length === 0
+    ) {
+
+        container.innerHTML = `
+
+            <div class="empty">
+                目前沒有正在使用的物品
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    activeItems.forEach(
+        item => {
+
+            const days =
+                getDays(
+                    item.startDate
+                );
+
+
+            container.innerHTML += `
+
+                <div class="item">
+
+                    <div class="item-name">
+
+                        ${escapeHTML(
+                            item.name
+                        )}
+
+                    </div>
+
+
+                    <div class="info">
+
+                        開始使用　
+                        ${formatDate(
+                            item.startDate
+                        )}
+
+                    </div>
+
+
+                    <div class="days">
+
+                        已使用 ${days} 天
+
+                    </div>
+
+
+                    <div class="buttons">
+
+                        <button
+                            class="finish-btn"
+                            onclick="
+                                finishItem(
+                                    '${escapeHTML(
+                                        item.id
+                                    )}'
+                                )
+                            "
+                        >
+                            ✓ 用完
+                        </button>
+
+
+                        <button
+                            class="delete-btn"
+                            onclick="
+                                deleteItem(
+                                    '${escapeHTML(
+                                        item.id
+                                    )}',
+                                    'active'
+                                )
+                            "
+                        >
+                            刪除
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   歷史
+===================================================== */
+
+function renderHistory() {
+
+    const container =
+        $("historyList");
+
+
+    container.innerHTML = "";
+
+
+    if (
+        historyItems.length === 0
+    ) {
+
+        container.innerHTML = `
+
+            <div class="empty">
+                還沒有完成的使用紀錄
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    historyItems.forEach(
+        item => {
+
+            container.innerHTML += `
+
+                <div class="item history-item">
+
+                    <div class="item-name">
+
+                        ${escapeHTML(
+                            item.name
+                        )}
+
+                    </div>
+
+
+                    <div class="info">
+
+                        ${formatDate(
+                            item.startDate
+                        )}
+
+                        →
+
+                        ${formatDate(
+                            item.endDate
+                        )}
+
+                    </div>
+
+
+                    <div class="days">
+
+                        使用了 ${item.days} 天
+
+                    </div>
+
+
+                    <div class="buttons">
+
+                        <button
+                            class="delete-btn"
+                            onclick="
+                                deleteItem(
+                                    '${escapeHTML(
+                                        item.id
+                                    )}',
+                                    'history'
+                                )
+                            "
+                        >
+                            刪除
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   Render
+===================================================== */
+
+function render() {
+
+    renderActive();
+
+    renderHistory();
+
+}
+
+
+/* =====================================================
+   Enter
+===================================================== */
+
+$("itemName")
+    .addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.key ===
+                "Enter"
+            ) {
+
+                addItem();
+
+            }
+
+        }
+    );
+
+
+/* =====================================================
+   按鈕
+===================================================== */
+
+$("addBtn")
+    .addEventListener(
+        "click",
+        addItem
+    );
+
+
+$("createSyncBtn")
+    .addEventListener(
+        "click",
+        createSyncCode
+    );
+
+
+$("loadSyncBtn")
+    .addEventListener(
+        "click",
+        loadSyncCode
+    );
+
+
+/* =====================================================
+   啟動
+===================================================== */
+
+$("syncCode").value =
+    syncCode;
+
+
+render();
+
+
+/*
+ * 如果這台裝置之前已經記住同步碼，
+ * 自動載入。
+ */
+
+if (syncCode) {
+
+    loadSyncCode();
+
+}
+
+</script>
+
+</body>
+</html>
 ```
