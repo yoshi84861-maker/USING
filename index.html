@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -23,10 +24,6 @@
     --line: #e4e7df;
     --gold: #b5a06b;
 }
-
-/* =========================
-   整體
-========================= */
 
 body {
     margin: 0;
@@ -54,20 +51,12 @@ body {
     color: var(--text);
 }
 
-/* =========================
-   主容器
-========================= */
-
 .container {
     width: 100%;
     max-width: 680px;
     margin: auto;
     padding: 40px 18px 60px;
 }
-
-/* =========================
-   標題
-========================= */
 
 .header {
     text-align: center;
@@ -103,6 +92,7 @@ h1 {
     margin-top: 5px;
     margin-bottom: 25px;
 }
+
 
 /* =========================
    同步
@@ -193,8 +183,9 @@ h1 {
     color: #a23b3b;
 }
 
+
 /* =========================
-   新增區
+   新增
 ========================= */
 
 .add-box {
@@ -263,8 +254,9 @@ input::placeholder {
     transform: translateY(-1px);
 }
 
+
 /* =========================
-   區塊標題
+   區塊
 ========================= */
 
 .section {
@@ -295,8 +287,9 @@ input::placeholder {
     background: var(--line);
 }
 
+
 /* =========================
-   物品卡片
+   物品
 ========================= */
 
 .item {
@@ -323,8 +316,6 @@ input::placeholder {
     box-shadow:
         0 8px 22px rgba(72, 89, 75, 0.09);
 }
-
-/* 小小的精靈光點 */
 
 .item::before {
     content: "✦";
@@ -373,6 +364,7 @@ input::placeholder {
     font-size: 17px;
     font-weight: 500;
 }
+
 
 /* =========================
    按鈕
@@ -431,8 +423,9 @@ button {
     color: #777e77;
 }
 
+
 /* =========================
-   空白狀態
+   空白
 ========================= */
 
 .empty {
@@ -451,8 +444,9 @@ button {
     background: rgba(255,255,255,0.35);
 }
 
+
 /* =========================
-   歷史紀錄
+   歷史
 ========================= */
 
 .history-item {
@@ -463,6 +457,7 @@ button {
     background: #f0eee5;
     color: #827957;
 }
+
 
 /* =========================
    手機
@@ -523,6 +518,7 @@ button {
     .delete-btn {
         font-size: 15px;
     }
+
 }
 
 </style>
@@ -531,8 +527,6 @@ button {
 <body>
 
 <div class="container">
-
-    <!-- 標題 -->
 
     <div class="header">
 
@@ -572,6 +566,7 @@ button {
                 class="sync-input"
                 placeholder="輸入同步碼，例如 A7K9P2XQ"
                 autocomplete="off"
+                maxlength="8"
             >
 
             <button
@@ -663,17 +658,14 @@ button {
 <script>
 
 /* =====================================================
-   雲端同步設定
-   沿用「菇點記錄」的同步方式
+   雲端同步
 ===================================================== */
 
-const API_BASE = "https://mantledb.sh/v2";
+const API_BASE =
+    "https://mantledb.sh/v2";
 
-/*
-   USING 使用自己的 Namespace，
-   不會跟菇點記錄混在一起。
-*/
-const NAMESPACE = "using-items-v1";
+const NAMESPACE =
+    "using-items-v1";
 
 
 /* =====================================================
@@ -681,9 +673,12 @@ const NAMESPACE = "using-items-v1";
 ===================================================== */
 
 let syncCode =
-    localStorage.getItem("usingSyncCode") || "";
+    localStorage.getItem(
+        "usingSyncCode"
+    ) || "";
 
 let activeItems = [];
+
 let historyItems = [];
 
 let pollTimer = null;
@@ -694,7 +689,7 @@ let lastRemoteUpdated = "";
 
 
 /* =====================================================
-   快捷選取
+   快捷
 ===================================================== */
 
 const $ = id =>
@@ -710,7 +705,8 @@ function setSyncStatus(
     type = ""
 ) {
 
-    $("syncStatus").textContent = text;
+    $("syncStatus").textContent =
+        text;
 
     $("syncStatus").className =
         "sync-status " + type;
@@ -719,7 +715,7 @@ function setSyncStatus(
 
 
 /* =====================================================
-   HTML 安全處理
+   HTML 安全
 ===================================================== */
 
 function escapeHTML(text) {
@@ -736,12 +732,12 @@ function escapeHTML(text) {
 
 /* =====================================================
    日期
-   使用 YYYY-MM-DD，避免時區造成日期跑掉
 ===================================================== */
 
 function getTodayString() {
 
-    const now = new Date();
+    const now =
+        new Date();
 
     const year =
         now.getFullYear();
@@ -761,9 +757,13 @@ function getTodayString() {
 }
 
 
-function formatDate(dateString) {
+function formatDate(
+    dateString
+) {
 
-    if (!dateString) return "";
+    if (!dateString) {
+        return "";
+    }
 
     const parts =
         dateString.split("-");
@@ -778,13 +778,17 @@ function formatDate(dateString) {
 
 
 /* =====================================================
-   使用天數
+   天數
 ===================================================== */
 
-function dateToNumber(dateString) {
+function dateToNumber(
+    dateString
+) {
 
     const parts =
-        dateString.split("-").map(Number);
+        dateString
+            .split("-")
+            .map(Number);
 
     if (parts.length !== 3) {
         return NaN;
@@ -805,30 +809,33 @@ function getDays(
 ) {
 
     const start =
-        dateToNumber(startDate);
+        dateToNumber(
+            startDate
+        );
 
     const end =
-        dateToNumber(endDate);
+        dateToNumber(
+            endDate
+        );
 
     if (
         !Number.isFinite(start) ||
         !Number.isFinite(end)
     ) {
+
         return 1;
+
     }
 
     const difference =
         end - start;
 
-    const days =
-        Math.floor(
-            difference /
-            (1000 * 60 * 60 * 24)
-        );
-
     return Math.max(
         1,
-        days + 1
+        Math.floor(
+            difference /
+            86400000
+        ) + 1
     );
 
 }
@@ -845,7 +852,11 @@ function randomSyncCode() {
 
     let code = "";
 
-    for (let i = 0; i < 8; i++) {
+    for (
+        let i = 0;
+        i < 8;
+        i++
+    ) {
 
         code +=
             chars[
@@ -863,810 +874,6 @@ function randomSyncCode() {
 
 
 /* =====================================================
-   API URL
-===================================================== */
-
-function apiUrl() {
-
-    return `${API_BASE}/${NAMESPACE}/${encodeURIComponent(syncCode)}`;
-
-}
-
-
-/* =====================================================
-   上傳雲端
-===================================================== */
-
-async function writeRemote() {
-
-    if (!syncCode || isSaving) {
-        return;
-    }
-
-    isSaving = true;
-
-    try {
-
-        const payload = {
-
-            activeItems,
-            historyItems,
-
-            updatedAt: Date.now()
-
-        };
-
-
-        const response =
-            await fetch(
-                apiUrl(),
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body:
-                        JSON.stringify(
-                            payload
-                        )
-                }
-            );
-
-
-        if (!response.ok) {
-            throw new Error(
-                "雲端儲存失敗"
-            );
-        }
-
-
-        lastRemoteUpdated =
-            String(
-                payload.updatedAt
-            );
-
-
-        setSyncStatus(
-            `已同步：${syncCode}`,
-            "ok"
-        );
-
-    }
-
-    catch (error) {
-
-        setSyncStatus(
-            "同步失敗，請確認網路連線。",
-            "error"
-        );
-
-    }
-
-    finally {
-
-        isSaving = false;
-
-    }
-
-}
-
-
-/* =====================================================
-   從雲端讀取
-===================================================== */
-
-async function readRemote(
-    showMessage = true
-) {
-
-    if (!syncCode) {
-        return;
-    }
-
-
-    try {
-
-        const response =
-            await fetch(
-                apiUrl(),
-                {
-                    cache: "no-store"
-                }
-            );
-
-
-        if (response.status === 404) {
-
-            if (showMessage) {
-
-                setSyncStatus(
-                    "找不到這組同步碼。",
-                    "error"
-                );
-
-            }
-
-            return;
-
-        }
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                "讀取失敗"
-            );
-
-        }
-
-
-        const data =
-            await response.json();
-
-
-        if (
-            !data ||
-            !Array.isArray(
-                data.activeItems
-            ) ||
-            !Array.isArray(
-                data.historyItems
-            )
-        ) {
-
-            if (showMessage) {
-
-                setSyncStatus(
-                    "同步資料格式錯誤。",
-                    "error"
-                );
-
-            }
-
-            return;
-
-        }
-
-
-        const remoteUpdated =
-            String(
-                data.updatedAt || ""
-            );
-
-
-        if (
-            remoteUpdated &&
-            remoteUpdated !==
-            lastRemoteUpdated
-        ) {
-
-            activeItems =
-                data.activeItems;
-
-            historyItems =
-                data.historyItems;
-
-            lastRemoteUpdated =
-                remoteUpdated;
-
-            render();
-
-        }
-
-
-        if (showMessage) {
-
-            setSyncStatus(
-                `已連接：${syncCode}`,
-                "ok"
-            );
-
-        }
-
-    }
-
-    catch (error) {
-
-        if (showMessage) {
-
-            setSyncStatus(
-                "目前無法連線同步資料。",
-                "error"
-            );
-
-        }
-
-    }
-
-}
-
-
-/* =====================================================
-   建立新同步碼
-===================================================== */
-
-async function createSyncCode() {
-
-    syncCode =
-        randomSyncCode();
-
-
-    activeItems = [];
-
-    historyItems = [];
-
-    lastRemoteUpdated = "";
-
-
-    localStorage.setItem(
-        "usingSyncCode",
-        syncCode
-    );
-
-
-    $("syncCode").value =
-        syncCode;
-
-
-    render();
-
-
-    await writeRemote();
-
-
-    setSyncStatus(
-        `新同步碼：${syncCode}`,
-        "ok"
-    );
-
-
-    startPolling();
-
-}
-
-
-/* =====================================================
-   載入同步碼
-===================================================== */
-
-async function loadSyncCode() {
-
-    const code =
-        $("syncCode")
-            .value
-            .trim()
-            .toUpperCase();
-
-
-    if (
-        !/^[A-Z0-9]{8}$/.test(code)
-    ) {
-
-        setSyncStatus(
-            "同步碼必須是 8 碼英數字。",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    syncCode = code;
-
-
-    localStorage.setItem(
-        "usingSyncCode",
-        syncCode
-    );
-
-
-    lastRemoteUpdated = "";
-
-
-    await readRemote(true);
-
-
-    startPolling();
-
-}
-
-
-/* =====================================================
-   每 4 秒檢查一次
-===================================================== */
-
-function startPolling() {
-
-    if (pollTimer) {
-
-        clearInterval(
-            pollTimer
-        );
-
-    }
-
-
-    pollTimer =
-        setInterval(
-            () => {
-
-                readRemote(false);
-
-            },
-            4000
-        );
-
-}
-
-
-/* =====================================================
-   新增物品
-===================================================== */
-
-async function addItem() {
-
-    if (!syncCode) {
-
-        setSyncStatus(
-            "請先建立或載入同步碼。",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    const input =
-        $("itemName");
-
-
-    const name =
-        input.value.trim();
-
-
-    if (!name) {
-
-        alert(
-            "請輸入物品名稱"
-        );
-
-        return;
-
-    }
-
-
-    const item = {
-
-        id:
-            crypto.randomUUID
-                ? crypto.randomUUID()
-                : String(
-                    Date.now()
-                ) +
-                  Math.random(),
-
-        name: name,
-
-        startDate:
-            getTodayString()
-
-    };
-
-
-    activeItems.push(item);
-
-
-    render();
-
-
-    await writeRemote();
-
-
-    input.value = "";
-
-}
-
-
-/* =====================================================
-   用完
-===================================================== */
-
-async function finishItem(id) {
-
-    const item =
-        activeItems.find(
-            item =>
-                item.id === id
-        );
-
-
-    if (!item) {
-        return;
-    }
-
-
-    const today =
-        getTodayString();
-
-
-    const finishedItem = {
-
-        ...item,
-
-        endDate: today,
-
-        days:
-            getDays(
-                item.startDate,
-                today
-            )
-
-    };
-
-
-    historyItems.unshift(
-        finishedItem
-    );
-
-
-    activeItems =
-        activeItems.filter(
-            item =>
-                item.id !== id
-        );
-
-
-    render();
-
-
-    await writeRemote();
-
-}
-
-
-/* =====================================================
-   刪除
-===================================================== */
-
-async function deleteItem(
-    id,
-    type
-) {
-
-    if (
-        !confirm(
-            "確定要刪除這筆紀錄嗎？"
-        )
-    ) {
-
-        return;
-
-    }
-
-
-    if (
-        type === "active"
-    ) {
-
-        activeItems =
-            activeItems.filter(
-                item =>
-                    item.id !== id
-            );
-
-    }
-
-
-    if (
-        type === "history"
-    ) {
-
-        historyItems =
-            historyItems.filter(
-                item =>
-                    item.id !== id
-            );
-
-    }
-
-
-    render();
-
-
-    await writeRemote();
-
-}
-
-
-/* =====================================================
-   使用中
-===================================================== */
-
-function renderActive() {
-
-    const container =
-        $("activeList");
-
-
-    container.innerHTML = "";
-
-
-    if (
-        activeItems.length === 0
-    ) {
-
-        container.innerHTML = `
-
-            <div class="empty">
-                目前沒有正在使用的物品
-            </div>
-
-        `;
-
-        return;
-
-    }
-
-
-    activeItems.forEach(
-        item => {
-
-            const days =
-                getDays(
-                    item.startDate
-                );
-
-
-            container.innerHTML += `
-
-                <div class="item">
-
-                    <div class="item-name">
-
-                        ${escapeHTML(
-                            item.name
-                        )}
-
-                    </div>
-
-
-                    <div class="info">
-
-                        開始使用　
-                        ${formatDate(
-                            item.startDate
-                        )}
-
-                    </div>
-
-
-                    <div class="days">
-
-                        已使用 ${days} 天
-
-                    </div>
-
-
-                    <div class="buttons">
-
-                        <button
-                            class="finish-btn"
-                            onclick="
-                                finishItem(
-                                    '${escapeHTML(
-                                        item.id
-                                    )}'
-                                )
-                            "
-                        >
-                            ✓ 用完
-                        </button>
-
-
-                        <button
-                            class="delete-btn"
-                            onclick="
-                                deleteItem(
-                                    '${escapeHTML(
-                                        item.id
-                                    )}',
-                                    'active'
-                                )
-                            "
-                        >
-                            刪除
-                        </button>
-
-                    </div>
-
-                </div>
-
-            `;
-
-        }
-    );
-
-}
-
-
-/* =====================================================
-   歷史
-===================================================== */
-
-function renderHistory() {
-
-    const container =
-        $("historyList");
-
-
-    container.innerHTML = "";
-
-
-    if (
-        historyItems.length === 0
-    ) {
-
-        container.innerHTML = `
-
-            <div class="empty">
-                還沒有完成的使用紀錄
-            </div>
-
-        `;
-
-        return;
-
-    }
-
-
-    historyItems.forEach(
-        item => {
-
-            container.innerHTML += `
-
-                <div class="item history-item">
-
-                    <div class="item-name">
-
-                        ${escapeHTML(
-                            item.name
-                        )}
-
-                    </div>
-
-
-                    <div class="info">
-
-                        ${formatDate(
-                            item.startDate
-                        )}
-
-                        →
-
-                        ${formatDate(
-                            item.endDate
-                        )}
-
-                    </div>
-
-
-                    <div class="days">
-
-                        使用了 ${item.days} 天
-
-                    </div>
-
-
-                    <div class="buttons">
-
-                        <button
-                            class="delete-btn"
-                            onclick="
-                                deleteItem(
-                                    '${escapeHTML(
-                                        item.id
-                                    )}',
-                                    'history'
-                                )
-                            "
-                        >
-                            刪除
-                        </button>
-
-                    </div>
-
-                </div>
-
-            `;
-
-        }
-    );
-
-}
-
-
-/* =====================================================
-   更新畫面
-===================================================== */
-
-function render() {
-
-    renderActive();
-
-    renderHistory();
-
-}
-
-
-/* =====================================================
-   Enter 新增
-===================================================== */
-
-$("itemName")
-    .addEventListener(
-        "keydown",
-        function(event) {
-
-            if (
-                event.key === "Enter"
-            ) {
-
-                addItem();
-
-            }
-
-        }
-    );
-
-
-/* =====================================================
-   按鈕
-===================================================== */
-
-$("addBtn")
-    .addEventListener(
-        "click",
-        addItem
-    );
-
-
-$("createSyncBtn")
-    .addEventListener(
-        "click",
-        createSyncCode
-    );
-
-
-$("loadSyncBtn")
-    .addEventListener(
-        "click",
-        loadSyncCode
-    );
-
-
-/* =====================================================
-   啟動
-===================================================== */
-
-$("syncCode").value =
-    syncCode;
-
-
-render();
-
-
-if (syncCode) {
-
-    loadSyncCode();
-
-}
-
-</script>
-
-</body>
-</html>
+   API
+===================================================== */*
+```
