@@ -1,5 +1,5 @@
+```html
 <!DOCTYPE html>
-
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
@@ -25,15 +25,12 @@
     --gold: #b5a06b;
 }
 
-
 /* =========================
    整體
 ========================= */
 
 body {
-
     margin: 0;
-
     min-height: 100vh;
 
     font-family:
@@ -56,216 +53,240 @@ body {
         var(--bg);
 
     color: var(--text);
-
 }
-
 
 /* =========================
    主容器
 ========================= */
 
 .container {
-
     width: 100%;
-
     max-width: 680px;
-
     margin: auto;
-
-    padding:
-        45px 18px 60px;
-
+    padding: 40px 18px 60px;
 }
-
 
 /* =========================
    標題
 ========================= */
 
 .header {
-
     text-align: center;
-
-    margin-bottom: 35px;
-
+    margin-bottom: 30px;
 }
-
 
 .header .symbol {
-
-    font-size: 25px;
-
+    font-size: 28px;
     color: var(--green);
-
     margin-bottom: 8px;
-
     letter-spacing: 5px;
-
 }
-
 
 h1 {
-
     margin: 0;
-
-    font-size: 28px;
-
+    font-size: 31px;
     font-weight: 500;
-
     letter-spacing: 2px;
-
 }
-
 
 .subtitle {
-
-    margin-top: 9px;
-
-    font-size: 13px;
-
+    margin-top: 10px;
+    font-size: 15px;
     color: var(--subtext);
-
     letter-spacing: 1px;
-
 }
 
+.fairy-line {
+    text-align: center;
+    color: #b9b99a;
+    font-size: 13px;
+    letter-spacing: 8px;
+    margin-top: 5px;
+    margin-bottom: 25px;
+}
+
+/* =========================
+   同步
+========================= */
+
+.sync-box {
+    background: rgba(255,255,255,0.78);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 18px;
+    margin-bottom: 22px;
+
+    box-shadow:
+        0 8px 25px rgba(72, 89, 75, 0.06);
+
+    backdrop-filter: blur(5px);
+}
+
+.sync-title {
+    font-size: 19px;
+    font-weight: 500;
+    color: var(--green-dark);
+    margin-bottom: 12px;
+}
+
+.sync-row {
+    display: flex;
+    gap: 9px;
+    flex-wrap: wrap;
+}
+
+.sync-input {
+    flex: 1;
+    min-width: 200px;
+
+    border: 1px solid var(--line);
+    background: #fafbf7;
+    border-radius: 11px;
+
+    padding: 13px 14px;
+    font-size: 16px;
+
+    color: var(--text);
+    outline: none;
+}
+
+.sync-input:focus {
+    border-color: #a8baa9;
+    background: white;
+}
+
+.sync-button {
+    border: none;
+    border-radius: 11px;
+    padding: 11px 14px;
+
+    font-size: 15px;
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.sync-primary {
+    background: var(--green);
+    color: white;
+}
+
+.sync-primary:hover {
+    background: var(--green-dark);
+}
+
+.sync-secondary {
+    background: var(--green-light);
+    color: var(--green-dark);
+}
+
+.sync-status {
+    margin-top: 11px;
+    font-size: 14px;
+    color: var(--subtext);
+}
+
+.sync-status.ok {
+    color: #467154;
+}
+
+.sync-status.error {
+    color: #a23b3b;
+}
 
 /* =========================
    新增區
 ========================= */
 
 .add-box {
-
     background: rgba(255,255,255,0.72);
 
     border: 1px solid var(--line);
-
     border-radius: 18px;
 
     padding: 18px;
-
     margin-bottom: 35px;
 
     box-shadow:
         0 8px 25px rgba(72, 89, 75, 0.06);
 
     backdrop-filter: blur(5px);
-
 }
-
 
 .add-row {
-
     display: flex;
-
     gap: 10px;
-
 }
 
-
 input {
-
     flex: 1;
-
     min-width: 0;
 
     border: 1px solid var(--line);
-
     background: #fafbf7;
-
     border-radius: 11px;
 
     padding: 13px 15px;
 
-    font-size: 15px;
-
+    font-size: 17px;
     color: var(--text);
 
     outline: none;
-
     transition: 0.2s;
-
 }
-
 
 input:focus {
-
     border-color: #a8baa9;
-
     background: white;
-
 }
-
 
 input::placeholder {
-
     color: #b1b8b1;
-
 }
 
-
 .add-btn {
-
     border: none;
-
     border-radius: 11px;
 
     padding: 0 20px;
 
     background: var(--green);
-
     color: white;
 
-    font-size: 14px;
+    font-size: 16px;
 
     cursor: pointer;
-
     transition: 0.2s;
-
 }
-
 
 .add-btn:hover {
-
     background: var(--green-dark);
-
     transform: translateY(-1px);
-
 }
-
 
 /* =========================
    區塊標題
 ========================= */
 
 .section {
-
     margin-bottom: 38px;
-
 }
 
-
 .section-title {
-
     display: flex;
-
     align-items: center;
 
     gap: 10px;
 
-    font-size: 17px;
-
+    font-size: 20px;
     font-weight: 500;
 
     margin-bottom: 14px;
 
     color: var(--green-dark);
-
 }
 
-
 .section-title::after {
-
     content: "";
 
     height: 1px;
@@ -273,25 +294,21 @@ input::placeholder {
     flex: 1;
 
     background: var(--line);
-
 }
-
 
 /* =========================
    物品卡片
 ========================= */
 
 .item {
-
     position: relative;
 
     background: var(--card);
 
     border: 1px solid var(--line);
-
     border-radius: 16px;
 
-    padding: 20px;
+    padding: 21px;
 
     margin-bottom: 12px;
 
@@ -299,206 +316,154 @@ input::placeholder {
         0 5px 18px rgba(72, 89, 75, 0.055);
 
     transition: 0.2s;
-
 }
 
-
 .item:hover {
-
     transform: translateY(-2px);
 
     box-shadow:
         0 8px 22px rgba(72, 89, 75, 0.09);
-
 }
-
 
 /* 小小的精靈光點 */
 
 .item::before {
-
     content: "✦";
 
     position: absolute;
 
     top: 13px;
-
     right: 17px;
 
     color: #c8bc83;
 
-    font-size: 11px;
+    font-size: 13px;
 
     opacity: 0.75;
-
 }
 
-
 .item-name {
-
-    font-size: 19px;
-
+    font-size: 21px;
     font-weight: 500;
 
     margin-bottom: 13px;
 
     padding-right: 20px;
-
 }
 
-
 .info {
-
-    font-size: 13px;
+    font-size: 15px;
 
     color: var(--subtext);
 
-    margin: 5px 0;
-
+    margin: 6px 0;
 }
 
-
 .days {
-
     display: inline-block;
 
     margin-top: 12px;
 
-    padding: 6px 11px;
+    padding: 7px 12px;
 
     border-radius: 8px;
 
     background: var(--green-light);
-
     color: var(--green-dark);
 
-    font-size: 14px;
-
+    font-size: 17px;
     font-weight: 500;
-
 }
-
 
 /* =========================
    按鈕
 ========================= */
 
 .buttons {
-
     display: flex;
 
     gap: 8px;
 
     margin-top: 17px;
-
 }
-
 
 button {
-
     font-family: inherit;
-
 }
 
-
 .finish-btn {
-
     border: none;
 
     border-radius: 9px;
 
-    padding: 9px 15px;
+    padding: 10px 16px;
 
     background: var(--green);
-
     color: white;
 
-    font-size: 13px;
+    font-size: 15px;
 
     cursor: pointer;
 
     transition: 0.2s;
-
 }
-
 
 .finish-btn:hover {
-
     background: var(--green-dark);
-
 }
 
-
 .delete-btn {
-
     border: 1px solid #e2e4dc;
 
     border-radius: 9px;
 
-    padding: 9px 13px;
+    padding: 10px 14px;
 
     background: transparent;
-
     color: #a0a69f;
 
-    font-size: 13px;
+    font-size: 15px;
 
     cursor: pointer;
-
 }
-
 
 .delete-btn:hover {
-
     background: #f4f5f0;
-
     color: #777e77;
-
 }
-
 
 /* =========================
    空白狀態
 ========================= */
 
 .empty {
-
     text-align: center;
 
     padding: 28px 15px;
 
     color: #a5aca5;
 
-    font-size: 13px;
+    font-size: 15px;
 
     border: 1px dashed #dfe3dc;
 
     border-radius: 14px;
 
     background: rgba(255,255,255,0.35);
-
 }
-
 
 /* =========================
    歷史紀錄
 ========================= */
 
 .history-item {
-
     opacity: 0.9;
-
 }
-
 
 .history-item .days {
-
     background: #f0eee5;
-
     color: #827957;
-
 }
-
 
 /* =========================
    手機
@@ -507,234 +472,789 @@ button {
 @media (max-width: 500px) {
 
     .container {
-
-        padding:
-            32px 14px 50px;
-
+        padding: 30px 14px 50px;
     }
-
 
     h1 {
-
-        font-size: 25px;
-
+        font-size: 28px;
     }
 
+    .subtitle {
+        font-size: 14px;
+    }
+
+    .sync-row {
+        flex-direction: column;
+    }
+
+    .sync-input {
+        width: 100%;
+    }
+
+    .sync-button {
+        width: 100%;
+    }
 
     .add-row {
-
         flex-direction: column;
-
     }
-
 
     .add-btn {
-
         width: 100%;
-
-        padding: 12px;
-
+        padding: 13px;
     }
-
 
     .item {
-
-        padding: 18px;
-
+        padding: 19px;
     }
 
-}
+    .item-name {
+        font-size: 20px;
+    }
 
+    .info {
+        font-size: 15px;
+    }
 
-/* =========================
-   微小裝飾
-========================= */
+    .days {
+        font-size: 16px;
+    }
 
-.fairy-line {
-
-    text-align: center;
-
-    color: #b9b99a;
-
-    font-size: 11px;
-
-    letter-spacing: 8px;
-
-    margin-top: 5px;
-
-    margin-bottom: 22px;
-
+    .finish-btn,
+    .delete-btn {
+        font-size: 15px;
+    }
 }
 
 </style>
-
 </head>
 
 <body>
 
 <div class="container">
 
-```
-<!-- 標題 -->
+    <!-- 標題 -->
 
-<div class="header">
+    <div class="header">
 
-    <div class="symbol">
-        ✦
+        <div class="symbol">
+            ✦
+        </div>
+
+        <h1>
+            小物使用紀錄
+        </h1>
+
+        <div class="subtitle">
+            記住每一件陪伴你的日常
+        </div>
+
     </div>
 
-    <h1>
-        小物使用紀錄
-    </h1>
-
-    <div class="subtitle">
-        記住每一件陪伴你的日常
+    <div class="fairy-line">
+        · ✦ ·
     </div>
 
-</div>
 
+    <!-- =========================
+         同步
+    ========================= -->
 
-<div class="fairy-line">
-    · ✦ ·
-</div>
+    <div class="sync-box">
 
+        <div class="sync-title">
+            ☁️ 同步
+        </div>
 
-<!-- 新增 -->
+        <div class="sync-row">
 
-<div class="add-box">
+            <input
+                id="syncCode"
+                class="sync-input"
+                placeholder="輸入同步碼，例如 A7K9P2XQ"
+                autocomplete="off"
+            >
 
-    <div class="add-row">
+            <button
+                class="sync-button sync-primary"
+                id="createSyncBtn"
+            >
+                建立新同步碼
+            </button>
 
-        <input
-            type="text"
-            id="itemName"
-            placeholder="輸入物品名稱，例如：乳液"
+            <button
+                class="sync-button sync-secondary"
+                id="loadSyncBtn"
+            >
+                載入同步碼
+            </button>
+
+        </div>
+
+        <div
+            id="syncStatus"
+            class="sync-status"
         >
+            尚未連接同步資料。
+        </div>
 
-        <button
-            class="add-btn"
-            onclick="addItem()"
-        >
-            ＋ 新增
-        </button>
+    </div>
+
+
+    <!-- =========================
+         新增
+    ========================= -->
+
+    <div class="add-box">
+
+        <div class="add-row">
+
+            <input
+                type="text"
+                id="itemName"
+                placeholder="輸入物品名稱，例如：乳液"
+            >
+
+            <button
+                class="add-btn"
+                id="addBtn"
+            >
+                ＋ 新增
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         使用中
+    ========================= -->
+
+    <div class="section">
+
+        <div class="section-title">
+            <span>🌿</span>
+            <span>使用中</span>
+        </div>
+
+        <div id="activeList"></div>
+
+    </div>
+
+
+    <!-- =========================
+         歷史
+    ========================= -->
+
+    <div class="section">
+
+        <div class="section-title">
+            <span>✦</span>
+            <span>使用紀錄</span>
+        </div>
+
+        <div id="historyList"></div>
 
     </div>
 
 </div>
 
-
-<!-- 使用中 -->
-
-<div class="section">
-
-    <div class="section-title">
-        <span>🌿</span>
-        <span>使用中</span>
-    </div>
-
-    <div id="activeList"></div>
-
-</div>
-
-
-<!-- 歷史 -->
-
-<div class="section">
-
-    <div class="section-title">
-        <span>✦</span>
-        <span>使用紀錄</span>
-    </div>
-
-    <div id="historyList"></div>
-
-</div>
-```
-
-</div>
 
 <script>
 
+/* =====================================================
+   雲端同步設定
+   沿用「菇點記錄」的同步方式
+===================================================== */
 
-/* =========================
-   讀取資料
-========================= */
+const API_BASE = "https://mantledb.sh/v2";
 
-let activeItems =
-    JSON.parse(
-        localStorage.getItem("activeItems")
-    ) || [];
-
-
-let historyItems =
-    JSON.parse(
-        localStorage.getItem("historyItems")
-    ) || [];
+/*
+   USING 使用自己的 Namespace，
+   不會跟菇點記錄混在一起。
+*/
+const NAMESPACE = "using-items-v1";
 
 
+/* =====================================================
+   資料
+===================================================== */
 
-/* =========================
-   日期格式
-========================= */
+let syncCode =
+    localStorage.getItem("usingSyncCode") || "";
 
-function formatDate(date) {
+let activeItems = [];
+let historyItems = [];
 
-    let year =
-        date.getFullYear();
+let pollTimer = null;
 
-    let month =
-        String(
-            date.getMonth() + 1
-        ).padStart(2, "0");
+let isSaving = false;
 
-    let day =
-        String(
-            date.getDate()
-        ).padStart(2, "0");
+let lastRemoteUpdated = "";
 
-    return `${year}/${month}/${day}`;
+
+/* =====================================================
+   快捷選取
+===================================================== */
+
+const $ = id =>
+    document.getElementById(id);
+
+
+/* =====================================================
+   狀態
+===================================================== */
+
+function setSyncStatus(
+    text,
+    type = ""
+) {
+
+    $("syncStatus").textContent = text;
+
+    $("syncStatus").className =
+        "sync-status " + type;
 
 }
 
 
+/* =====================================================
+   HTML 安全處理
+===================================================== */
 
-/* =========================
-   新增
-========================= */
+function escapeHTML(text) {
 
-function addItem() {
+    return String(text ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 
-    let input =
-        document.getElementById(
-            "itemName"
+}
+
+
+/* =====================================================
+   日期
+   使用 YYYY-MM-DD，避免時區造成日期跑掉
+===================================================== */
+
+function getTodayString() {
+
+    const now = new Date();
+
+    const year =
+        now.getFullYear();
+
+    const month =
+        String(
+            now.getMonth() + 1
+        ).padStart(2, "0");
+
+    const day =
+        String(
+            now.getDate()
+        ).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+
+}
+
+
+function formatDate(dateString) {
+
+    if (!dateString) return "";
+
+    const parts =
+        dateString.split("-");
+
+    if (parts.length !== 3) {
+        return dateString;
+    }
+
+    return `${parts[0]}/${parts[1]}/${parts[2]}`;
+
+}
+
+
+/* =====================================================
+   使用天數
+===================================================== */
+
+function dateToNumber(dateString) {
+
+    const parts =
+        dateString.split("-").map(Number);
+
+    if (parts.length !== 3) {
+        return NaN;
+    }
+
+    return Date.UTC(
+        parts[0],
+        parts[1] - 1,
+        parts[2]
+    );
+
+}
+
+
+function getDays(
+    startDate,
+    endDate = getTodayString()
+) {
+
+    const start =
+        dateToNumber(startDate);
+
+    const end =
+        dateToNumber(endDate);
+
+    if (
+        !Number.isFinite(start) ||
+        !Number.isFinite(end)
+    ) {
+        return 1;
+    }
+
+    const difference =
+        end - start;
+
+    const days =
+        Math.floor(
+            difference /
+            (1000 * 60 * 60 * 24)
         );
 
+    return Math.max(
+        1,
+        days + 1
+    );
 
-    let name =
-        input.value.trim();
+}
 
 
-    if (!name) {
+/* =====================================================
+   同步碼
+===================================================== */
 
-        alert("請輸入物品名稱");
+function randomSyncCode() {
+
+    const chars =
+        "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+    let code = "";
+
+    for (let i = 0; i < 8; i++) {
+
+        code +=
+            chars[
+                Math.floor(
+                    Math.random() *
+                    chars.length
+                )
+            ];
+
+    }
+
+    return code;
+
+}
+
+
+/* =====================================================
+   API URL
+===================================================== */
+
+function apiUrl() {
+
+    return `${API_BASE}/${NAMESPACE}/${encodeURIComponent(syncCode)}`;
+
+}
+
+
+/* =====================================================
+   上傳雲端
+===================================================== */
+
+async function writeRemote() {
+
+    if (!syncCode || isSaving) {
+        return;
+    }
+
+    isSaving = true;
+
+    try {
+
+        const payload = {
+
+            activeItems,
+            historyItems,
+
+            updatedAt: Date.now()
+
+        };
+
+
+        const response =
+            await fetch(
+                apiUrl(),
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify(
+                            payload
+                        )
+                }
+            );
+
+
+        if (!response.ok) {
+            throw new Error(
+                "雲端儲存失敗"
+            );
+        }
+
+
+        lastRemoteUpdated =
+            String(
+                payload.updatedAt
+            );
+
+
+        setSyncStatus(
+            `已同步：${syncCode}`,
+            "ok"
+        );
+
+    }
+
+    catch (error) {
+
+        setSyncStatus(
+            "同步失敗，請確認網路連線。",
+            "error"
+        );
+
+    }
+
+    finally {
+
+        isSaving = false;
+
+    }
+
+}
+
+
+/* =====================================================
+   從雲端讀取
+===================================================== */
+
+async function readRemote(
+    showMessage = true
+) {
+
+    if (!syncCode) {
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                apiUrl(),
+                {
+                    cache: "no-store"
+                }
+            );
+
+
+        if (response.status === 404) {
+
+            if (showMessage) {
+
+                setSyncStatus(
+                    "找不到這組同步碼。",
+                    "error"
+                );
+
+            }
+
+            return;
+
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "讀取失敗"
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !data ||
+            !Array.isArray(
+                data.activeItems
+            ) ||
+            !Array.isArray(
+                data.historyItems
+            )
+        ) {
+
+            if (showMessage) {
+
+                setSyncStatus(
+                    "同步資料格式錯誤。",
+                    "error"
+                );
+
+            }
+
+            return;
+
+        }
+
+
+        const remoteUpdated =
+            String(
+                data.updatedAt || ""
+            );
+
+
+        if (
+            remoteUpdated &&
+            remoteUpdated !==
+            lastRemoteUpdated
+        ) {
+
+            activeItems =
+                data.activeItems;
+
+            historyItems =
+                data.historyItems;
+
+            lastRemoteUpdated =
+                remoteUpdated;
+
+            render();
+
+        }
+
+
+        if (showMessage) {
+
+            setSyncStatus(
+                `已連接：${syncCode}`,
+                "ok"
+            );
+
+        }
+
+    }
+
+    catch (error) {
+
+        if (showMessage) {
+
+            setSyncStatus(
+                "目前無法連線同步資料。",
+                "error"
+            );
+
+        }
+
+    }
+
+}
+
+
+/* =====================================================
+   建立新同步碼
+===================================================== */
+
+async function createSyncCode() {
+
+    syncCode =
+        randomSyncCode();
+
+
+    activeItems = [];
+
+    historyItems = [];
+
+    lastRemoteUpdated = "";
+
+
+    localStorage.setItem(
+        "usingSyncCode",
+        syncCode
+    );
+
+
+    $("syncCode").value =
+        syncCode;
+
+
+    render();
+
+
+    await writeRemote();
+
+
+    setSyncStatus(
+        `新同步碼：${syncCode}`,
+        "ok"
+    );
+
+
+    startPolling();
+
+}
+
+
+/* =====================================================
+   載入同步碼
+===================================================== */
+
+async function loadSyncCode() {
+
+    const code =
+        $("syncCode")
+            .value
+            .trim()
+            .toUpperCase();
+
+
+    if (
+        !/^[A-Z0-9]{8}$/.test(code)
+    ) {
+
+        setSyncStatus(
+            "同步碼必須是 8 碼英數字。",
+            "error"
+        );
 
         return;
 
     }
 
 
-    let today =
-        new Date();
+    syncCode = code;
 
 
-    let item = {
+    localStorage.setItem(
+        "usingSyncCode",
+        syncCode
+    );
 
-        id: Date.now(),
+
+    lastRemoteUpdated = "";
+
+
+    await readRemote(true);
+
+
+    startPolling();
+
+}
+
+
+/* =====================================================
+   每 4 秒檢查一次
+===================================================== */
+
+function startPolling() {
+
+    if (pollTimer) {
+
+        clearInterval(
+            pollTimer
+        );
+
+    }
+
+
+    pollTimer =
+        setInterval(
+            () => {
+
+                readRemote(false);
+
+            },
+            4000
+        );
+
+}
+
+
+/* =====================================================
+   新增物品
+===================================================== */
+
+async function addItem() {
+
+    if (!syncCode) {
+
+        setSyncStatus(
+            "請先建立或載入同步碼。",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const input =
+        $("itemName");
+
+
+    const name =
+        input.value.trim();
+
+
+    if (!name) {
+
+        alert(
+            "請輸入物品名稱"
+        );
+
+        return;
+
+    }
+
+
+    const item = {
+
+        id:
+            crypto.randomUUID
+                ? crypto.randomUUID()
+                : String(
+                    Date.now()
+                ) +
+                  Math.random(),
 
         name: name,
 
         startDate:
-            today.toISOString()
+            getTodayString()
 
     };
 
@@ -742,81 +1262,44 @@ function addItem() {
     activeItems.push(item);
 
 
-    saveData();
+    render();
+
+
+    await writeRemote();
 
 
     input.value = "";
 
-
-    render();
-
 }
 
 
-
-/* =========================
-   使用天數
-========================= */
-
-function getDays(
-    startDate,
-    endDate = new Date()
-) {
-
-    let start =
-        new Date(startDate);
-
-    let end =
-        new Date(endDate);
-
-
-    start.setHours(0,0,0,0);
-
-    end.setHours(0,0,0,0);
-
-
-    let difference =
-        end - start;
-
-
-    let days =
-        Math.floor(
-            difference /
-            (1000 * 60 * 60 * 24)
-        );
-
-
-    return days + 1;
-
-}
-
-
-
-/* =========================
+/* =====================================================
    用完
-========================= */
+===================================================== */
 
-function finishItem(id) {
+async function finishItem(id) {
 
-    let item =
+    const item =
         activeItems.find(
-            item => item.id === id
+            item =>
+                item.id === id
         );
 
 
-    if (!item) return;
+    if (!item) {
+        return;
+    }
 
 
-    let today =
-        new Date();
+    const today =
+        getTodayString();
 
 
-    let finishedItem = {
+    const finishedItem = {
 
         ...item,
 
-        endDate:
-            today.toISOString(),
+        endDate: today,
 
         days:
             getDays(
@@ -834,24 +1317,24 @@ function finishItem(id) {
 
     activeItems =
         activeItems.filter(
-            item => item.id !== id
+            item =>
+                item.id !== id
         );
-
-
-    saveData();
 
 
     render();
 
+
+    await writeRemote();
+
 }
 
 
-
-/* =========================
+/* =====================================================
    刪除
-========================= */
+===================================================== */
 
-function deleteItem(
+async function deleteItem(
     id,
     type
 ) {
@@ -867,7 +1350,9 @@ function deleteItem(
     }
 
 
-    if (type === "active") {
+    if (
+        type === "active"
+    ) {
 
         activeItems =
             activeItems.filter(
@@ -878,7 +1363,9 @@ function deleteItem(
     }
 
 
-    if (type === "history") {
+    if (
+        type === "history"
+    ) {
 
         historyItems =
             historyItems.filter(
@@ -889,50 +1376,22 @@ function deleteItem(
     }
 
 
-    saveData();
-
-
     render();
 
-}
 
-
-
-/* =========================
-   儲存
-========================= */
-
-function saveData() {
-
-    localStorage.setItem(
-        "activeItems",
-        JSON.stringify(
-            activeItems
-        )
-    );
-
-
-    localStorage.setItem(
-        "historyItems",
-        JSON.stringify(
-            historyItems
-        )
-    );
+    await writeRemote();
 
 }
 
 
-
-/* =========================
+/* =====================================================
    使用中
-========================= */
+===================================================== */
 
 function renderActive() {
 
-    let container =
-        document.getElementById(
-            "activeList"
-        );
+    const container =
+        $("activeList");
 
 
     container.innerHTML = "";
@@ -945,9 +1404,7 @@ function renderActive() {
         container.innerHTML = `
 
             <div class="empty">
-
                 目前沒有正在使用的物品
-
             </div>
 
         `;
@@ -957,98 +1414,95 @@ function renderActive() {
     }
 
 
-    activeItems.forEach(item => {
+    activeItems.forEach(
+        item => {
 
-        let days =
-            getDays(
-                item.startDate
-            );
-
-
-        container.innerHTML += `
-
-            <div class="item">
-
-                <div class="item-name">
-
-                    ${escapeHTML(
-                        item.name
-                    )}
-
-                </div>
+            const days =
+                getDays(
+                    item.startDate
+                );
 
 
-                <div class="info">
+            container.innerHTML += `
 
-                    開始使用　
-                    ${formatDate(
-                        new Date(
+                <div class="item">
+
+                    <div class="item-name">
+
+                        ${escapeHTML(
+                            item.name
+                        )}
+
+                    </div>
+
+
+                    <div class="info">
+
+                        開始使用　
+                        ${formatDate(
                             item.startDate
-                        )
-                    )}
+                        )}
+
+                    </div>
+
+
+                    <div class="days">
+
+                        已使用 ${days} 天
+
+                    </div>
+
+
+                    <div class="buttons">
+
+                        <button
+                            class="finish-btn"
+                            onclick="
+                                finishItem(
+                                    '${escapeHTML(
+                                        item.id
+                                    )}'
+                                )
+                            "
+                        >
+                            ✓ 用完
+                        </button>
+
+
+                        <button
+                            class="delete-btn"
+                            onclick="
+                                deleteItem(
+                                    '${escapeHTML(
+                                        item.id
+                                    )}',
+                                    'active'
+                                )
+                            "
+                        >
+                            刪除
+                        </button>
+
+                    </div>
 
                 </div>
 
+            `;
 
-                <div class="days">
-
-                    已使用 ${days} 天
-
-                </div>
-
-
-                <div class="buttons">
-
-                    <button
-                        class="finish-btn"
-                        onclick="
-                            finishItem(
-                                ${item.id}
-                            )
-                        "
-                    >
-
-                        ✓ 用完
-
-                    </button>
-
-
-                    <button
-                        class="delete-btn"
-                        onclick="
-                            deleteItem(
-                                ${item.id},
-                                'active'
-                            )
-                        "
-                    >
-
-                        刪除
-
-                    </button>
-
-                </div>
-
-            </div>
-
-        `;
-
-    });
+        }
+    );
 
 }
 
 
-
-/* =========================
+/* =====================================================
    歷史
-========================= */
+===================================================== */
 
 function renderHistory() {
 
-    let container =
-        document.getElementById(
-            "historyList"
-        );
+    const container =
+        $("historyList");
 
 
     container.innerHTML = "";
@@ -1061,9 +1515,7 @@ function renderHistory() {
         container.innerHTML = `
 
             <div class="empty">
-
                 還沒有完成的使用紀錄
-
             </div>
 
         `;
@@ -1073,110 +1525,75 @@ function renderHistory() {
     }
 
 
-    historyItems.forEach(item => {
+    historyItems.forEach(
+        item => {
 
-        container.innerHTML += `
+            container.innerHTML += `
 
-            <div class="item history-item">
+                <div class="item history-item">
 
-                <div class="item-name">
+                    <div class="item-name">
 
-                    ${escapeHTML(
-                        item.name
-                    )}
+                        ${escapeHTML(
+                            item.name
+                        )}
 
-                </div>
+                    </div>
 
 
-                <div class="info">
+                    <div class="info">
 
-                    ${formatDate(
-                        new Date(
+                        ${formatDate(
                             item.startDate
-                        )
-                    )}
+                        )}
 
-                    →
+                        →
 
-                    ${formatDate(
-                        new Date(
+                        ${formatDate(
                             item.endDate
-                        )
-                    )}
+                        )}
+
+                    </div>
+
+
+                    <div class="days">
+
+                        使用了 ${item.days} 天
+
+                    </div>
+
+
+                    <div class="buttons">
+
+                        <button
+                            class="delete-btn"
+                            onclick="
+                                deleteItem(
+                                    '${escapeHTML(
+                                        item.id
+                                    )}',
+                                    'history'
+                                )
+                            "
+                        >
+                            刪除
+                        </button>
+
+                    </div>
 
                 </div>
 
+            `;
 
-                <div class="days">
-
-                    使用了 ${item.days} 天
-
-                </div>
-
-
-                <div class="buttons">
-
-                    <button
-                        class="delete-btn"
-                        onclick="
-                            deleteItem(
-                                ${item.id},
-                                'history'
-                            )
-                        "
-                    >
-
-                        刪除
-
-                    </button>
-
-                </div>
-
-            </div>
-
-        `;
-
-    });
+        }
+    );
 
 }
 
 
-
-/* =========================
-   防止特殊字元造成 HTML 問題
-========================= */
-
-function escapeHTML(text) {
-
-    return text
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
-
-}
-
-
-
-/* =========================
-   更新
-========================= */
+/* =====================================================
+   更新畫面
+===================================================== */
 
 function render() {
 
@@ -1187,13 +1604,11 @@ function render() {
 }
 
 
-
-/* =========================
+/* =====================================================
    Enter 新增
-========================= */
+===================================================== */
 
-document
-    .getElementById("itemName")
+$("itemName")
     .addEventListener(
         "keydown",
         function(event) {
@@ -1210,15 +1625,50 @@ document
     );
 
 
+/* =====================================================
+   按鈕
+===================================================== */
 
-/* =========================
+$("addBtn")
+    .addEventListener(
+        "click",
+        addItem
+    );
+
+
+$("createSyncBtn")
+    .addEventListener(
+        "click",
+        createSyncCode
+    );
+
+
+$("loadSyncBtn")
+    .addEventListener(
+        "click",
+        loadSyncCode
+    );
+
+
+/* =====================================================
    啟動
-========================= */
+===================================================== */
+
+$("syncCode").value =
+    syncCode;
+
 
 render();
+
+
+if (syncCode) {
+
+    loadSyncCode();
+
+}
 
 </script>
 
 </body>
-
 </html>
+```
